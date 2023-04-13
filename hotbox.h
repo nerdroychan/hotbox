@@ -59,7 +59,7 @@ static_assert(sizeof(as64) == 8, "sizeof(as64)");
 
 // }}} types
 
-// {{{ cacheline
+// {{{ memory
 
 #ifndef CSLZ
 #define CLSZ (64u)
@@ -73,21 +73,32 @@ static inline void *clalloc(size_t size)
     return ret;
 }
 
-// }}} cacheline
+static inline void *zmalloc(size_t size)
+{
+    void *const m = malloc(size);
+    memset(m, 0, size);
+    return m;
+}
 
-// print error msg and force quit
+// }}} memory
+
+// {{{ errors
+
 static inline void panic_exit(const char *const fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    vprintf(fmt, args);
+    vfprintf(stderr, fmt, args);
     va_end(args);
     if (fmt[strlen(fmt)-1] != '\n') {
         printf("\n");
     }
+    fflush(stderr);
     fflush(stdout);
     exit(1);
 }
+
+// }}} errors
 
 #ifdef __cplusplus
 }
