@@ -2,8 +2,8 @@
  * This is a header-only library for commonly used small nits
  */
 
-#ifndef _WHEELS_H
-#define _WHEELS_H
+#ifndef _HOTBOX_H
+#define _HOTBOX_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -82,23 +82,44 @@ static inline void *zmalloc(size_t size)
 
 // }}} memory
 
-// {{{ errors
+// {{{ bits
 
-static inline void panic_exit(const char *const fmt, ...)
+
+
+// }}} bits
+
+// {{{ print
+
+static inline void fprintf_sync(FILE *f, const char *const fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    vfprintf(stderr, fmt, args);
+    vfprintf(f, fmt, args);
     va_end(args);
     if (fmt[strlen(fmt)-1] != '\n') {
         printf("\n");
     }
-    fflush(stderr);
-    fflush(stdout);
-    exit(1);
+    fflush(f);
 }
 
-// }}} errors
+
+#define \
+    printf_sync(...) { \
+        fprintf_sync(stdout, __VA_ARGS__); \
+    }
+
+// }}} print
+
+// {{{ panic
+
+#define \
+    panic_exit(...) { \
+        fflush(stdout); \
+        fprintf_sync(stderr, __VA_ARGS__); \
+        exit(1); \
+    }
+
+// }}} panic
 
 #ifdef __cplusplus
 }
