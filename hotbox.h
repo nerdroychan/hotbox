@@ -18,6 +18,7 @@ extern "C" {
 // {{{ types
 
 #ifndef _TYPE_ALIAS_DEFINED
+#define _TYPE_ALIAS_DEFINED
 #include <assert.h>
 #include <stdint.h>
 #include <stdatomic.h>
