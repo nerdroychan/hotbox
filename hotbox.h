@@ -1,9 +1,7 @@
 /*
  * This is a header-only library for commonly used small nits
  */
-
-#ifndef _HOTBOX_H
-#define _HOTBOX_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -64,6 +62,14 @@ static_assert(sizeof(as64) == 8, "sizeof(as64)");
 
 #ifndef CSLZ
 #define CLSZ (64u)
+#endif
+
+#ifndef BLKSZ
+#define BLKSZ (512u)
+#endif
+
+#ifndef PGSZ
+#define PGSZ (4096u)
 #endif
 
 static inline void *clalloc(size_t size)
@@ -172,6 +178,4 @@ static inline void fprintf_sync(FILE *f, const char *const fmt, ...)
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif
