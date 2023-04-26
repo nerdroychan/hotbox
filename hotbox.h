@@ -159,20 +159,22 @@ static inline void fprintf_sync(FILE *f, const char *const fmt, ...)
 }
 
 #define \
-    printf_sync(...) { \
+    printf_sync(...) \
+    do { \
         fprintf_sync(stdout, __VA_ARGS__); \
-    }
+    } while (0)
 
 // }}} print
 
 // {{{ panic
 
 #define \
-    panic_exit(...) { \
+    panic_exit(...) \
+    do { \
         fflush(stdout); \
         fprintf_sync(stderr, __VA_ARGS__); \
         exit(1); \
-    }
+    } while (0)
 
 // }}} panic
 
